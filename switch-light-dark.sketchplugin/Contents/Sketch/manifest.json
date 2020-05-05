@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+  "icon": ".../Resources/icon.png",
+  "homepage": "https://github.com/chaos-machine/switch-theme",
+  "identifier": "com.sketchapp.examples.switchtheme",
+  "bundleVersion": 1,
+  "commands": [
+    {
+      "shortcut": "ctrl shift r",
+      "script": "switch_theme.js",
+      "name": "Switch Theme",
+      "identifier": "switchtheme"
+    }
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": [
+      "switchtheme"
+    ]
+  },
+  "version": "1.0.0",
+  "description": "Switch artboards' theme",
+  "name": "Light/Dark Switch",
+  "disableCocoaScriptPreprocessor": true,
+  "appcast": "https://raw.githubusercontent.com/chaos-machine/switch-theme/master/.appcast.xml",
+  "author": "Tudor Teisanu",
+  "authorEmail": "tudor703344@gmail.com"
+}
