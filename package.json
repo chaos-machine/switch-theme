@@ -2,7 +2,7 @@
     "name": "switch_theme",
     "description": "Switch artboards' theme",
     "author": "Tudor Teisanu <tudor703344@gmail.com>",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "engines": {
         "sketch": ">=3.0"
     },
