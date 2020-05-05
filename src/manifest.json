@@ -1,0 +1,23 @@
+{
+    "icon":  "icon.png",
+    "identifier": "com.sketchapp.examples.switchtheme",
+    "compatibleVersion": 3,
+    "bundleVersion": 1,
+    "commands": [
+        {
+            "script": "switch_theme.js",
+            "name": "Switch Theme",
+            "identifier": "switchtheme"
+             
+
+        }
+    ],
+    "menu": {
+        "isRoot": true,
+        "items": [
+            "switchtheme"
+        ]
+    }
+}
+
+  
