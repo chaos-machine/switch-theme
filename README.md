@@ -1,17 +1,19 @@
 # Switch Theme
 
-This is an extremely simple plugin example, which illustrates how to add a menu command to the Plugins menu and execute some code when it is selected.
-
-_It was created using `skpm`. For a detailed explanation on how things work, checkout the [skpm Readme](https://github.com/skpm/skpm/blob/master/README.md)._
+This plugin looks at all symbols, layer styles and text styles in a selected artboard and fetches their equivalent dark theme versions. Then it places them in a new artboard, keeping their size, position and layer hierarchy
 
 ## Usage
 
-Download the example or [clone the repo](https://github.com/sketch-hq/SketchAPI):
+It works with:
+ - external libraries, with any names
+ - symbols, nested symbols and all types of overrides
+ - must select an artboard to switch themes
+- changes shapes, text and layer styles
+- multiple artboard switching
 
-```bash
-curl https://codeload.github.com/sketch-hq/SketchAPI/tar.gz/develop | tar -xz --strip=2 SketchAPI-develop/examples/hello-world
-cd hello-world
-```
+
+-give it time, it takes a while for large libraries
+
 
 Install the dependencies
 
