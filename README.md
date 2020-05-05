@@ -1,4 +1,4 @@
-# Hello World
+# Switch Theme
 
 This is an extremely simple plugin example, which illustrates how to add a menu command to the Plugins menu and execute some code when it is selected.
 
