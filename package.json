@@ -1,29 +1,33 @@
 {
-  "name": "switch_theme",
-  "description": "Switch artboards appearance theme",
-  "author": "Tudor Teisanu <tudor703344@gmail.com>",
-  "version": "1.0.0",
-  "engines": {
-    "sketch": ">=3.0"
-  },
-  "skpm": {
-    "name": "Switch Theme",
-    "manifest": "src/manifest.json",
-    "main": "plugin.sketchplugin"
-  },
-  "scripts": {
-    "build": "skpm-build",
-    "watch": "skpm-build --watch",
-    "start": "skpm-build --watch --run",
-    "postinstall": "npm run build && skpm-link"
-  },
-  "devDependencies": {
-    "@skpm/builder": "^0.4.0",
-    "@skpm/nib-loader": "^0.1.2",
-    "appkit": "^1.0.1"
-  },
-  "dependencies": {
-    "common-js": "^0.3.8",
-    "sketch-toolbar-item": "^0.1.4"
-  }
+    "name": "switch_theme",
+    "description": "Switch artboards' theme",
+    "author": "Tudor Teisanu <tudor703344@gmail.com>",
+    "version": "1.0.0",
+    "engines": {
+        "sketch": ">=3.0"
+    },
+    "skpm": {
+        "name": "Light/Dark Switch",
+        "manifest": "src/manifest.json",
+        "main": "switch-light-dark.sketchplugin"
+    },
+    "scripts": {
+        "build": "skpm-build",
+        "watch": "skpm-build --watch",
+        "start": "skpm-build --watch --run",
+        "postinstall": "npm run build && skpm-link"
+    },
+    "devDependencies": {
+        "@skpm/builder": "^0.4.0",
+        "@skpm/nib-loader": "^0.1.2",
+        "appkit": "^1.0.1"
+    },
+    "dependencies": {
+        "common-js": "^0.3.8",
+        "sketch-toolbar-item": "^0.1.4"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chaos-machine/switch-theme.git"
+    }
 }

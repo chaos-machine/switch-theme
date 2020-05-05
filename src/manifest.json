@@ -1,14 +1,16 @@
 {
-    "icon":  "icon.png",
+    "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+    "icon": ".../Resources/icon.png",
+    "homepage": "https://github.com/chaos-machine/switch-theme",
     "identifier": "com.sketchapp.examples.switchtheme",
-    "compatibleVersion": 3,
     "bundleVersion": 1,
     "commands": [
         {
+            "shortcut": "ctrl shift r",
             "script": "switch_theme.js",
             "name": "Switch Theme",
             "identifier": "switchtheme"
-             
+
 
         }
     ],
