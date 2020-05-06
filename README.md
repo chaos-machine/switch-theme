@@ -4,15 +4,17 @@ This plugin looks at all symbols, layer styles and text styles in a selected art
 
 ## Usage
 
+You need to have external libraries linked to Sketch for this to work.
+The plugin only works on artboards.
+
 It works with:
  - external libraries, with any names
  - symbols, nested symbols and all types of overrides
  - must select an artboard to switch themes
-- changes shapes, text and layer styles
-- multiple artboard switching
-
-
--give it time, it takes a while for large libraries
+ - changes shapes, text and layer styles
+ - multiple artboard switching
+ - 
+ - give it time, it takes a while for large libraries
 
 
 Install the dependencies
