@@ -9,8 +9,13 @@
     "skpm": {
         "name": "Light/Dark Switch",
         "manifest": "src/manifest.json",
-        "main": "switch-light-dark.sketchplugin"
-    },
+        "main": "switch-light-dark.sketchplugin",
+        "assets": [
+            "assets/**/*"
+        ],
+        "sketch-assets-file": "sketch-assets/icons.sketch"
+    
+},
     "scripts": {
         "build": "skpm-build",
         "watch": "skpm-build --watch",

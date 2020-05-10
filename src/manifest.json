@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
-    "icon": ".../Resources/icon.png",
+    "icon": "icon.png",
     "homepage": "https://github.com/chaos-machine/switch-theme",
     "identifier": "com.sketchapp.examples.switchtheme",
     "bundleVersion": 1,
