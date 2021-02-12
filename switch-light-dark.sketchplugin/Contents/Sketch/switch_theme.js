@@ -95,6 +95,8 @@ var Group = __webpack_require__(0).Group;
 
 var document = sketch.getSelectedDocument();
 var page = document.selectedPage;
+var docSwatches = document.swatches;
+var imported_swatches = [];
 
 var selection = context.selection;
 var fromTheme, toTheme;
@@ -110,7 +112,14 @@ var CreateArtboard = true;
 var TextLibrary = void 0;
 var ColourLibrary = void 0;
 
+var isGlobalColour = false;
+var isGlobalText = false;
+
 var myArtboard;
+
+var layerstyleReferences;
+var textstyleReferences;
+var swatchRefs = void 0;
 
 function removeArtboardNames() {
 
@@ -139,7 +148,7 @@ function createArtboatd() {
     if (CreateArtboard) {
         myArtboard = new Artboard({
             parent: page,
-            name: newArtboardName + toTheme,
+            name: newArtboardName + ' ' + toTheme,
             frame: {
                 x: currentArtboard.frame.x + currentArtboard.frame.width + move,
                 y: currentArtboard.frame.y,
@@ -160,16 +169,18 @@ function createArtboatd() {
 var libraries = __webpack_require__(0).getLibraries();
 for (var l = 0; l < Object.keys(libraries).length; l++) {
     if (libraries[l].name.includes('Type') || libraries[l].name.includes('Text') || libraries[l].name.includes('Fonts') || libraries[l].name.includes('Tyepface')) {
+        isGlobalText = true;
         TextLibrary = sketch.getLibraries()[l];
+        textstyleReferences = TextLibrary.getImportableTextStyleReferencesForDocument(document);
     }
 
-    if (libraries[l].name.includes('Color') || libraries[l].name.includes('Colour') || libraries[l].name.includes('Colours') || libraries[l].name.includes('Tyepface')) {
+    if (libraries[l].name.includes('Color') || libraries[l].name.includes('Colour') || libraries[l].name.includes('Colours')) {
+        isGlobalColour = true;
         ColourLibrary = sketch.getLibraries()[l];
+        layerstyleReferences = ColourLibrary.getImportableLayerStyleReferencesForDocument(document);
+        swatchRefs = ColourLibrary.getImportableSwatchReferencesForDocument(document);
     }
 }
-
-var textstyleReferences = TextLibrary.getImportableTextStyleReferencesForDocument(document);
-var layerstyleReferences = ColourLibrary.getImportableLayerStyleReferencesForDocument(document);
 
 //for each layer selected in the document, checking if there are artboards with sublayers
 
@@ -181,7 +192,7 @@ UI.getInputFromUser("Switch to", {
     possibleValues: ['Light', 'Dark']
 }, function (err, value) {
     if (err) {
-        // most likely the user canceled the input
+        UI.close();
         return;
     }
 
@@ -209,26 +220,14 @@ selection.forEach(function (layer) {
         CreateArtboard = true;
         createArtboatd();
 
+        //////////GETTING ALL LAYERS IN AN ARTBOARD BY NAME, THEN ID
+
         for (var f = 0; f < children.count(); f++) {
             if (children[f]['class']() != "MSArtboardGroup") {
                 var extracted_children_id = children[f].toString().split('(').pop().split(')')[0];
                 var current_layer_in_artboard = document.getLayerWithID(extracted_children_id);
 
-                if (current_layer_in_artboard.type == "Group") {
-
-                    var group = new Group({
-                        name: current_layer_in_artboard.name,
-                        frame: current_layer_in_artboard.frame,
-                        transform: current_layer_in_artboard.transform,
-                        sharedStyle: current_layer_in_artboard.sharedStyle,
-                        sharedStyleId: current_layer_in_artboard.sharedStyleId,
-                        style: current_layer_in_artboard.style,
-                        smartLayout: current_layer_in_artboard.smartLayout
-
-                    });
-                    group.transform.rotation = current_layer_in_artboard.transform.rotation;
-                    group.parent = myArtboard;
-                }
+                //////////SYMBOL LAYER
 
                 if (current_layer_in_artboard.type == "SymbolInstance") {
 
@@ -236,15 +235,21 @@ selection.forEach(function (layer) {
 
                     var library_linked = current_layer_in_artboard.master.getLibrary();
                     var symbolReferences = library_linked.getImportableSymbolReferencesForDocument(document);
+                    var _swatchRefs = library_linked.getImportableSwatchReferencesForDocument(document);
+
+                    if (!isGlobalColour) {
+                        layerstyleReferences = library_linked.getImportableLayerStyleReferencesForDocument(document);
+                    }
+                    if (!isGlobalText) {
+                        textstyleReferences = library_linked.getImportableTextStyleReferencesForDocument(document);
+                    }
 
                     symbolReferences.forEach(function (ImportableObject) {
                         if (ImportableObject.id == current_layer_in_artboard.symbolId) {
-
                             var imported_symbol_name = ImportableObject.name.replace(fromTheme, toTheme);
                             var to_Import = symbolReferences.filter(function (element) {
                                 return element.name == imported_symbol_name;
                             });
-
                             var symbolMaster = to_Import[0]['import']();
                             instance = symbolMaster.createNewInstance();
 
@@ -271,13 +276,13 @@ selection.forEach(function (layer) {
 
                                 //only get the override if the value is differnet from the default one, otherwise let the symbol handle it
 
+                                //looking at overriding text
                                 if (current_layer_in_artboard.overrides[w].property == 'stringValue' && !current_layer_in_artboard.overrides[w].isDefault) {
                                     instance.overrides[w].value = current_layer_in_artboard.overrides[w].value;
                                 }
 
                                 if (current_layer_in_artboard.overrides[w].property == 'layerStyle' && !current_layer_in_artboard.overrides[w].isDefault) {
                                     layerstyleReferences.forEach(function (element) {
-
                                         if (element.id == current_layer_in_artboard.overrides[w].value) {
                                             var layer_style_switch_name = element.name.replace(fromTheme, toTheme);
                                             layerstyleReferences.forEach(function (sub_element) {
@@ -344,8 +349,9 @@ selection.forEach(function (layer) {
                     });
                 }
 
-                if (current_layer_in_artboard.type == 'Text') {
+                //////////TEXT LAYER
 
+                if (current_layer_in_artboard.type == 'Text') {
                     var text = new Text({
                         text: current_layer_in_artboard.text,
                         frame: current_layer_in_artboard.frame,
@@ -357,7 +363,7 @@ selection.forEach(function (layer) {
                     text.behaviour = current_layer_in_artboard.behaviour;
                     text.parent = myArtboard;
 
-                    if (text.sharedStyle.name != null) {
+                    if (text.sharedStyle != null) {
                         if (text.sharedStyle.name.includes(fromTheme)) {
                             var switch_text_style = text.sharedStyle.name.replace(fromTheme, toTheme);
 
@@ -369,15 +375,63 @@ selection.forEach(function (layer) {
                                 }
                             });
                         }
-                    } else log("Use Color palettes for Texts");
+                    } else {
+                        //there are no text styles, just local swatches used
+
+                        if (!isGlobalColour) {
+                            log("Looking into local swatches for text colours");
+                            log("Current text color" + text.style.textColor);
+                            docSwatches.forEach(function (element) {
+                                if (element.color == text.style.textColor) {
+                                    var swatch_switch = element.name;
+                                    swatch_switch = swatch_switch.replace(fromTheme, toTheme);
+                                    docSwatches.forEach(function (sub_swatch) {
+                                        if (sub_swatch.name == swatch_switch) {
+                                            text.style.textColor = sub_swatch.referencingColor;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+
+                        //No text styles, global swatches are used
+                        else {
+                                var global_swatch_switch_text;
+                                log("Looking into global swatches");
+
+                                //importing all swatches into an array to get colours and names
+
+                                swatchRefs.forEach(function (element) {
+                                    imported_swatches.push(element['import']());
+                                });
+                                /*finding which swatch is used currently based on color code */
+                                imported_swatches.forEach(function (sub_element) {
+                                    if (sub_element.color == text.style.textColor) {
+                                        log("Current swatch is" + sub_element.name);
+
+                                        global_swatch_switch_text = sub_element.name;
+                                        global_swatch_switch_text = global_swatch_switch_text.replace(fromTheme, toTheme);
+                                    }
+                                });
+                                /*finding out the alternative darl/light swatch, then replacing it for the shape */
+                                imported_swatches.forEach(function (sub_sub_element) {
+                                    if (sub_sub_element.name == global_swatch_switch_text) {
+                                        text.style.textColor = sub_sub_element.referencingColor;
+                                    }
+                                });
+                            }
+                    }
                 }
 
-                if (current_layer_in_artboard.type == 'ShapePath') {
-                    (function () {
+                //////////SHAPE LAYER
 
+                if (current_layer_in_artboard.type == 'ShapePath') {
+                    var global_swatch_switch;
+
+                    (function () {
                         var shapePath = new ShapePath({
                             shapeType: current_layer_in_artboard.shapeType,
-                            sharedStyleId: current_layer_in_artboard.sharedStyleId,
+                            sharedStyle: current_layer_in_artboard.sharedStyle,
                             frame: current_layer_in_artboard.frame,
                             points: current_layer_in_artboard.points,
                             transform: current_layer_in_artboard.transform,
@@ -386,11 +440,10 @@ selection.forEach(function (layer) {
                             parent: myArtboard
 
                         });
-
                         shapePath.transform.rotation = current_layer_in_artboard.transform.rotation;
 
-                        if (shapePath.sharedStyleId != null) {
-
+                        if (shapePath.sharedStyle != null) {
+                            //layerstyleReferences only looks at layerstyles imported from the previous symbol in the document.
                             layerstyleReferences.forEach(function (element) {
                                 if (element.id == shapePath.sharedStyleId) {
 
@@ -406,7 +459,47 @@ selection.forEach(function (layer) {
                                     });
                                 }
                             });
-                        } else log("Use Color palettes for Shapes");
+                        } else {
+                            //shapes using colour variables/swatches. Check if swatches are in a Colour global library or not
+
+                            if (!isGlobalColour) {
+                                log("Looking into local swatches");
+                                docSwatches.forEach(function (element) {
+                                    if (element.color == shapePath.style.fills[0].color) {
+                                        var swatch_switch = element.name;
+                                        swatch_switch = swatch_switch.replace(fromTheme, toTheme);
+                                        docSwatches.forEach(function (sub_swatch) {
+                                            if (sub_swatch.name == swatch_switch) {
+                                                shapePath.style.fills[0].color = sub_swatch.referencingColor;
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                log("Looking into global swatches");
+
+                                //importing all swatches into an array to get colours and names
+
+                                swatchRefs.forEach(function (element) {
+                                    imported_swatches.push(element['import']());
+                                });
+                                /*finding which swatch is used currently based on color code */
+                                imported_swatches.forEach(function (sub_element) {
+                                    if (sub_element.color == shapePath.style.fills[0].color) {
+                                        log("Current swatch is" + sub_element.name);
+
+                                        global_swatch_switch = sub_element.name;
+                                        global_swatch_switch = global_swatch_switch.replace(fromTheme, toTheme);
+                                    }
+                                });
+                                /*finding out the alternative darl/light swatch, then replacing it for the shape */
+                                imported_swatches.forEach(function (sub_sub_element) {
+                                    if (sub_sub_element.name == global_swatch_switch) {
+                                        shapePath.style.fills[0].color = sub_sub_element.referencingColor;
+                                    }
+                                });
+                            }
+                        }
                     })();
                 }
             }
