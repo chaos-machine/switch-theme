@@ -1,45 +1,21 @@
-# Switch Theme
+# Instant Dark/Light Mode Theme Switch
 
-This plugin looks at all symbols, layer styles and text styles in a selected artboard and fetches their equivalent dark theme versions. Then it places them in a new artboard, keeping their size, position and layer hierarchy
+This plugin switches one or multiple artboards between light/dark modes instantly. It can work with symbols, nested symbols, overrides, shapes, layer styles, text styles and colour variables.
 
 ## Usage
+Have one or more libraries linked in Sketch for this to work.
 
-You need to have external libraries linked to Sketch for this to work.
-The plugin only works on artboards.
-
-It works with:
- - external libraries, with any names
- - symbols, nested symbols and all types of overrides
- - must select an artboard to switch themes
- - changes shapes, text and layer styles
- - multiple artboard switching
- - 
- - give it time, it takes a while for large libraries
-
-
-Install the dependencies
-
-```bash
-npm install
-```
-
-Once the installation is done, you can run some commands inside the project folder:
-
-```bash
-npm run build
-```
-
-To watch for changes:
-
-```bash
-npm run watch
-```
-
-Additionally, if you wish to run the plugin every time it is built:
-
-```bash
-npm run start
-```
+It can switch:
+ - symbols
+ - nested symbols
+ - all override types
+ - texts
+ - layer styles
+ - text styles
+ - NEW: colour variables
+ 
+All of these must have 'dark' or 'light' somewhere in their name, doesn't matter where.
+Just double click on the .sketchplugin file in the archive downloaded and you're good to go!
 
 ## Debugging
 
