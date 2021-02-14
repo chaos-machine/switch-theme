@@ -1,6 +1,8 @@
-# Instant Dark/Light Mode Theme Switch
+# Automaticallt Switch Designs Between Dark-Light Modes
 
 This plugin switches one or multiple artboards between light/dark modes instantly. It can work with symbols, nested symbols, overrides, shapes, layer styles, text styles and colour variables.
+
+<img src="https://miro.medium.com/max/1400/0*XEhDWmAMOUuxnYJn.gif">
 
 ## Usage
 Have one or more libraries linked in Sketch for this to work.
