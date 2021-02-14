@@ -1,4 +1,4 @@
-# Automaticallt Switch Designs Between Dark-Light Modes
+# Automatically switch designs between Dark-Light modes
 
 This plugin switches one or multiple artboards between light/dark modes instantly. It can work with symbols, nested symbols, overrides, shapes, layer styles, text styles and colour variables.
 
