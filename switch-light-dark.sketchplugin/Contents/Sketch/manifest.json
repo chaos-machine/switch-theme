@@ -19,7 +19,7 @@
       "switchtheme"
     ]
   },
-  "description": "Switch artboards' theme",
+  "description": "Switch colour variables, symbols, overrides, layer styles and text styles",
   "name": "Light/Dark Switch",
   "disableCocoaScriptPreprocessor": true,
   "appcast": "https://raw.githubusercontent.com/chaos-machine/switch-theme/master/.appcast.xml",
