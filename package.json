@@ -2,7 +2,7 @@
     "name": "switch_theme",
     "description": "Switch colour variables, symbols, overrides, layer styles and text styles",
     "author": "Tudor Teisanu <tudor703344@gmail.com>",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "engines": {
         "sketch": ">=3.0"
     },
