@@ -168,13 +168,13 @@ function createArtboatd() {
 
 var libraries = __webpack_require__(0).getLibraries();
 for (var l = 0; l < Object.keys(libraries).length; l++) {
-    if (libraries[l].name.includes('Type') || libraries[l].name.includes('Text') || libraries[l].name.includes('Fonts') || libraries[l].name.includes('Tyepface')) {
+    if (libraries[l].name.includes('Type') || libraries[l].name.includes('Text') || libraries[l].name.includes('Fonts') || libraries[l].name.includes('Fundamentals')) {
         isGlobalText = true;
         TextLibrary = sketch.getLibraries()[l];
         textstyleReferences = TextLibrary.getImportableTextStyleReferencesForDocument(document);
     }
 
-    if (libraries[l].name.includes('Color') || libraries[l].name.includes('Colour') || libraries[l].name.includes('Colours')) {
+    if (libraries[l].name.includes('Color') || libraries[l].name.includes('Fundamentals') || libraries[l].name.includes('Colours')) {
         isGlobalColour = true;
         ColourLibrary = sketch.getLibraries()[l];
         layerstyleReferences = ColourLibrary.getImportableLayerStyleReferencesForDocument(document);
